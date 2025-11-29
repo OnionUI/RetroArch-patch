@@ -130,10 +130,10 @@ index 1f07bdd4eeb..b64f63f08d9 100644
  bool command_load_state_slot(command_t *cmd, const char *arg)
  {
 diff --git a/command.h b/command.h
-index ad3ac3e12eb..416f98062f6 100644
+index 6fd256541b..7e9c378af4 100644
 --- a/command.h
 +++ b/command.h
-@@ -408,6 +408,12 @@ bool command_version(command_t *cmd, const char* arg);
+@@ -426,6 +426,12 @@ bool command_version(command_t *cmd, const char* arg);
  bool command_get_status(command_t *cmd, const char* arg);
  bool command_get_config_param(command_t *cmd, const char* arg);
  bool command_show_osd_msg(command_t *cmd, const char* arg);
@@ -145,13 +145,11 @@ index ad3ac3e12eb..416f98062f6 100644
 +bool command_save_state_slot(command_t *cmd, const char *arg);
  bool command_load_state_slot(command_t *cmd, const char* arg);
  bool command_play_replay_slot(command_t *cmd, const char* arg);
- #ifdef HAVE_CHEEVOS
-@@ -441,8 +447,15 @@ static const struct cmd_action_map action_map[] = {
+ bool command_seek_replay(command_t *cmd, const char *arg);
+@@ -456,6 +462,13 @@ static const struct cmd_action_map action_map[] = {
     { "READ_CORE_MEMORY", command_read_memory,      "<address> <number of bytes>" },
     { "WRITE_CORE_MEMORY",command_write_memory,     "<address> <byte1> <byte2> ..." },
- 
--   { "LOAD_STATE_SLOT",command_load_state_slot, "<slot number>"},
--   { "PLAY_REPLAY_SLOT",command_play_replay_slot, "<slot number>"},
+
 +   { "GET_DISK_COUNT",   command_get_disk_count,   "No argument" },
 +   { "GET_DISK_SLOT",    command_get_disk_slot,    "No argument" },
 +   { "SET_DISK_SLOT",    command_set_disk_slot,    "<disc number>" },
@@ -159,11 +157,9 @@ index ad3ac3e12eb..416f98062f6 100644
 +   { "GET_STATE_SLOT",   command_get_state_slot,   "No argument" },
 +   { "SET_STATE_SLOT",   command_set_state_slot,   "<slot number>" },
 +   { "SAVE_STATE_SLOT",  command_save_state_slot,  "<slot number>" },
-+   { "LOAD_STATE_SLOT",  command_load_state_slot,  "<slot number>" },
-+   { "PLAY_REPLAY_SLOT", command_play_replay_slot, "<slot number>" },
- };
- 
- static const struct cmd_map map[] = {
+    { "LOAD_STATE_SLOT",command_load_state_slot, "<slot number>"},
+    { "PLAY_REPLAY_SLOT",command_play_replay_slot, "<slot number>"},
+    { "SEEK_REPLAY",command_seek_replay, "<frame number>"},
 diff --git a/runloop.c b/runloop.c
 index a4bc004f26..669737e7ab 100644
 --- a/runloop.c

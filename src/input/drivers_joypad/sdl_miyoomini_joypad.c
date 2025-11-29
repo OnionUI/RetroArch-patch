@@ -139,7 +139,7 @@ static void sdl_miyoomini_joypad_connect(void) {
    /* 'Register' joypad connection via autoconfig task */
    input_autoconfigure_connect(
          sdl_miyoomini_joypad_name(0), /* name */
-         NULL,                         /* display_name */
+         NULL, NULL,                   /* display_names */
          sdl_dingux_joypad.ident,      /* driver */
          0,                            /* port */
          0,                            /* vid */
