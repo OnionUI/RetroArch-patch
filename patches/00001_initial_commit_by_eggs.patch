@@ -221,23 +221,31 @@ index 543fe5b630..4a0e4ffd78 100644
  };
 +#endif
 diff --git a/libretro-common/audio/conversion/float_to_s16.c b/libretro-common/audio/conversion/float_to_s16.c
-index 770981d9c1..cbbd0908f7 100644
+index 5f2ab2405a..35f01e7dae 100644
 --- a/libretro-common/audio/conversion/float_to_s16.c
 +++ b/libretro-common/audio/conversion/float_to_s16.c
-@@ -32,12 +32,11 @@
+@@ -32,11 +32,10 @@
  #include <audio/conversion/float_to_s16.h>
- 
+
  #if (defined(__ARM_NEON__) || defined(HAVE_NEON))
 +#include <arm_neon.h>
  static bool float_to_s16_neon_enabled = false;
  #ifdef HAVE_ARM_NEON_ASM_OPTIMIZATIONS
- void convert_float_s16_asm(int16_t *out,
-       const float *in, size_t samples);
+ void convert_float_s16_asm(int16_t *s, const float *in, size_t len);
 -#else
 -#include <arm_neon.h>
  #endif
- 
- void convert_float_to_s16(int16_t *out,
+
+ void convert_float_to_s16(int16_t *s, const float *in, size_t len)
+@@ -55,7 +54,7 @@ void convert_float_to_s16(int16_t *s, const float *in, size_t len)
+
+          s        += aligned_samples;
+          in       += aligned_samples;
+-         samples  -= aligned_samples;
++         len      -= aligned_samples;
+          i         = 0;
+ #else
+          int16x4x2_t oreg;
 diff --git a/retroarch.c b/retroarch.c
 index d28825d383..6bb120bd89 100644
 --- a/retroarch.c

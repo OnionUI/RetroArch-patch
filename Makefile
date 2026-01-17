@@ -14,6 +14,9 @@ ifeq ($(PLATFORM),linux)
 ECHO = echo -e
 endif
 
+SHELL := /bin/bash
+.SHELLFLAGS := -eu -o pipefail -c
+
 # Function to print status messages
 print_status = $(ECHO) "\033[34m--- $1\033[0m"
 
@@ -82,5 +85,5 @@ build: $(BUILD_DIR)/retroarch $(BUILD_DIR)/retroarch_miyoo354
 
 clean:
 	@$(call print_status, Cleaning)
-	rm -rf $(BUILD_DIR)
-	rm -rf bin
+	rm -rf $(BUILD_DIR) || true
+	rm -rf bin || true

@@ -8,29 +8,27 @@ Subject: [PATCH] feat: retain fast-forward state when pausing
  1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/runloop.c b/runloop.c
-index bd8bc2adecf..27f2c8b8048 100644
+index 55313076f0..d264d5989f 100644
 --- a/runloop.c
 +++ b/runloop.c
-@@ -6210,14 +6210,14 @@ static enum runloop_state_enum runloop_check_state(
+@@ -6476,13 +6476,13 @@ static enum runloop_state_enum runloop_check_state(
        if (!check2)
           check2 = old_hold_button_state != new_hold_button_state;
- 
+
 -      /* Don't allow fastmotion while paused */
--      if (runloop_paused)
+-      if (check2 && runloop_paused)
 -      {
--         check2                = true;
 -         new_button_state      = false;
 -         new_hold_button_state = false;
 -         input_st->flags      |= INP_FLAG_NONBLOCKING;
 -      }
 +      // /* Don't allow fastmotion while paused */
-+      // if (runloop_paused)
++      // if (check2 && runloop_paused)
 +      // {
-+      //    check2                = true;
 +      //    new_button_state      = false;
 +      //    new_hold_button_state = false;
 +      //    input_st->flags      |= INP_FLAG_NONBLOCKING;
 +      // }
- 
-       if (check2)
-       {
+
+ #ifdef HAVE_NETWORKING
+       if (check2 && !netplay_allow_timeskip)
