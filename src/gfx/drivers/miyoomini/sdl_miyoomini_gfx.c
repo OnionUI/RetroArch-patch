@@ -952,12 +952,10 @@ static bool sdl_miyoomini_gfx_frame(void *data, const void *frame,
       /* HW Blit GFX surface to Framebuffer and Flip */
       GFX_UpdateRect(vid->screen, vid->video_x, vid->video_y, vid->video_w, vid->video_h);
    } else {
-      if (!vid->was_in_menu) {
-         vid->was_in_menu = true;
-         stOpt.eRotate = E_MI_GFX_ROTATE_180;
-      }
       SDL_SoftStretch(vid->menuscreen_rgui, NULL, vid->menuscreen, rgui_menu_stretch ? NULL : &rgui_menu_dest_rect);
+	  stOpt.eRotate = E_MI_GFX_ROTATE_180;
       GFX_Flip(vid->menuscreen);
+	  stOpt.eRotate = vid->rotate;
    }
    return true;
 }
